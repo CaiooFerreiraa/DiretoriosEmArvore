@@ -1,9 +1,9 @@
 class ArvoreDiretorios: Arborizavel<String> {
-    var raiz: NoTriplo? = null;
+    var raiz: NoMultiplo? = null;
 
     override fun criar(dado: String, diretorio: String): Boolean {
         if (raiz == null) {
-            raiz = NoTriplo("C:");
+            raiz = NoMultiplo("C:");
         }
 
         val diretorioNo = buscaNo(raiz, diretorio);
@@ -11,7 +11,7 @@ class ArvoreDiretorios: Arborizavel<String> {
         if (diretorioNo != null) {
             for (i in 0 until diretorioNo.arrayPointers.size) {
                 if (diretorioNo.arrayPointers[i] == null) {
-                    diretorioNo.arrayPointers[i] = NoTriplo(dado);
+                    diretorioNo.arrayPointers[i] = NoMultiplo(dado);
                     diretorioNo.arrayPointers[i]!!.genitor = diretorioNo
                     return true;
                 }
@@ -24,7 +24,7 @@ class ArvoreDiretorios: Arborizavel<String> {
 
     fun criar(dado: String) {
         if (raiz == null) {
-            raiz = NoTriplo("C:");
+            raiz = NoMultiplo("C:");
         }
         criar(dado, "C:")
     }
@@ -44,7 +44,7 @@ class ArvoreDiretorios: Arborizavel<String> {
         }
     }
 
-    private fun buscaNo(no: NoTriplo?, diretorio: String): NoTriplo? {
+    private fun buscaNo(no: NoMultiplo?, diretorio: String): NoMultiplo? {
         if (no == null) return null;
         if (no.dado == diretorio) return no;
 
@@ -64,7 +64,7 @@ class ArvoreDiretorios: Arborizavel<String> {
         }
     }
 
-    private fun construirCaminho(no: NoTriplo?): String {
+    private fun construirCaminho(no: NoMultiplo?): String {
         if (no == null) return ""
         if (no.genitor == null) return no.dado  // Se for a raiz, apenas retorna o nome
 

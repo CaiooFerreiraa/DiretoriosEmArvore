@@ -8,6 +8,7 @@ fun main() {
     arvore.criar("Videos")
 
     arvore.detalhes("C:")
+    arvore.criar("foto.png", "Photos")
 
-    arvore.caminhoCompleto("Photos");
+    arvore.caminhoCompleto("foto.png");
 }
