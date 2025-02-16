@@ -12,6 +12,7 @@ class ArvoreDiretorios: Arborizavel<String> {
             for (i in 0 until diretorioNo.arrayPointers.size) {
                 if (diretorioNo.arrayPointers[i] == null) {
                     diretorioNo.arrayPointers[i] = NoTriplo(dado);
+                    diretorioNo.arrayPointers[i]!!.genitor = diretorioNo
                     return true;
                 }
             }
@@ -28,7 +29,7 @@ class ArvoreDiretorios: Arborizavel<String> {
         criar(dado, "C:")
     }
 
-    fun imprimir(diretorio: String) {
+    fun detalhes(diretorio: String) {
         var diretorioNo = buscaNo(raiz, diretorio);
 
         if (diretorioNo != null) {
@@ -47,11 +48,42 @@ class ArvoreDiretorios: Arborizavel<String> {
         if (no == null) return null;
         if (no.dado == diretorio) return no;
 
-        for (i in 0 until  no.arrayPointers.size) {
+        for (i in 0 until no.arrayPointers.size) {
             val filho = no.arrayPointers[i];
             val encontrado = buscaNo(filho, diretorio);
             if (encontrado != null) return encontrado;
         }
         return null;
+    }
+
+    fun caminhoCompleto(diretorio: String) {
+        val diretorioNo = buscaNo(raiz, diretorio)
+
+        if (diretorioNo != null) {
+            println("Caminho completo: " + construirCaminho(diretorioNo))
+        }
+    }
+
+    private fun construirCaminho(no: NoTriplo?): String {
+        if (no == null) return ""
+        if (no.genitor == null) return no.dado  // Se for a raiz, apenas retorna o nome
+
+        return construirCaminho(no.genitor) + "/" + no.dado
+    }
+
+    fun removerDiretorio(diretorio: String) {
+        var diretorioNo = buscaNo(raiz, diretorio);
+        var pai = diretorioNo?.genitor;
+
+        if (pai == null) {
+            raiz = null;
+        } else {
+            for (i in 0 until pai.arrayPointers.size) {
+                if (diretorioNo == pai.arrayPointers[i]) {
+                    pai.arrayPointers[i] = null;
+                }
+            }
+        }
+
     }
 }
