@@ -65,21 +65,6 @@ class ArvoreDiretorios: Arborizavel<String> {
         }
     }
 
-
-    private fun alturaMaxArvore(no: NoMultiplo?): Int {
-        if (no == null) return 0;
-
-        var maxAltura = 0;
-        for (i in 0 until no.arrayPointers.size) {
-            val alturaFilho = alturaMaxArvore(no.arrayPointers[i]);
-            if (alturaFilho > maxAltura) {
-                maxAltura = alturaFilho;
-            }
-        }
-
-        return maxAltura + 1;
-    }
-
     override fun detalhesArvore() {
         if (raiz == null) {
             println("Arvore vazia.")
