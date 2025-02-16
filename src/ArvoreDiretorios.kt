@@ -21,15 +21,14 @@ class ArvoreDiretorios: Arborizavel<String> {
         return false;
     }
 
-
-    fun criar(dado: String) {
+    override fun criar(dado: String) {
         if (raiz == null) {
             raiz = NoMultiplo("C:");
         }
         criar(dado, "C:")
     }
 
-    fun detalhes(diretorio: String) {
+    override fun detalhes(diretorio: String) {
         var diretorioNo = buscaNo(raiz, diretorio);
 
         if (diretorioNo != null) {
@@ -81,7 +80,7 @@ class ArvoreDiretorios: Arborizavel<String> {
         return maxAltura + 1;
     }
 
-    fun detalhesArvore() {
+    override fun detalhesArvore() {
         if (raiz == null) {
             println("Arvore vazia.")
             return
@@ -101,7 +100,7 @@ class ArvoreDiretorios: Arborizavel<String> {
         return null;
     }
 
-    fun caminhoCompleto(diretorio: String) {
+    override fun caminhoCompleto(diretorio: String) {
         val diretorioNo = buscaNo(raiz, diretorio)
 
         if (diretorioNo != null) {
@@ -116,7 +115,7 @@ class ArvoreDiretorios: Arborizavel<String> {
         return construirCaminho(no.genitor) + "/" + no.dado
     }
 
-    fun removerDiretorio(diretorio: String) {
+    override fun removerDiretorio(diretorio: String) {
         var diretorioNo = buscaNo(raiz, diretorio);
         var pai = diretorioNo?.genitor;
 
