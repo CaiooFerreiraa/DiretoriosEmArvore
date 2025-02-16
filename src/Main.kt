@@ -7,8 +7,9 @@ fun main() {
     arvore.criar("Musics")
     arvore.criar("Videos")
 
-    arvore.detalhes("C:")
-    arvore.criar("foto.png", "Photos")
+    arvore.criar("caio.jpg", "Photos")
+    arvore.criar("so.pdf", "Documents")
 
-    arvore.caminhoCompleto("foto.png");
+    //arvore.detalhes("C:")
+    arvore.detalhesArvore()
 }

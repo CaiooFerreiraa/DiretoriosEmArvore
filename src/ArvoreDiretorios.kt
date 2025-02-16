@@ -35,13 +35,58 @@ class ArvoreDiretorios: Arborizavel<String> {
         if (diretorioNo != null) {
             println("Pastas/arquivos dentro de ${diretorioNo.dado} -> ")
             for (i in 0 until diretorioNo.arrayPointers.size) {
-
-
                 if (diretorioNo.arrayPointers[i] != null) {
                     println("   " + diretorioNo.arrayPointers[i]!!.dado);
                 }
             }
         }
+    }
+
+
+    private fun imprimirDetalhes(no: NoMultiplo, nivel: Int) {
+        var temFilho = false
+
+        for (i in 0 until no.arrayPointers.size) {
+            if (no.arrayPointers[i] != null) {
+                temFilho = true
+                break
+            }
+        }
+
+        if (!temFilho) return
+
+        val indentacao = "  ".repeat(nivel)
+        println("$indentacao Pastas/arquivos dentro de ${no.dado} ->")
+
+        for (i in 0 until no.arrayPointers.size) {
+            if (no.arrayPointers[i] != null) {
+                println("$indentacao   ${no.arrayPointers[i]!!.dado}")
+                imprimirDetalhes(no.arrayPointers[i]!!, nivel + 1) // Chamada recursiva
+            }
+        }
+    }
+
+
+    private fun alturaMaxArvore(no: NoMultiplo?): Int {
+        if (no == null) return 0;
+
+        var maxAltura = 0;
+        for (i in 0 until no.arrayPointers.size) {
+            val alturaFilho = alturaMaxArvore(no.arrayPointers[i]);
+            if (alturaFilho > maxAltura) {
+                maxAltura = alturaFilho;
+            }
+        }
+
+        return maxAltura + 1;
+    }
+
+    fun detalhesArvore() {
+        if (raiz == null) {
+            println("Arvore vazia.")
+            return
+        }
+        imprimirDetalhes(raiz!!, 0)
     }
 
     private fun buscaNo(no: NoMultiplo?, diretorio: String): NoMultiplo? {
@@ -66,7 +111,7 @@ class ArvoreDiretorios: Arborizavel<String> {
 
     private fun construirCaminho(no: NoMultiplo?): String {
         if (no == null) return ""
-        if (no.genitor == null) return no.dado  // Se for a raiz, apenas retorna o nome
+        if (no.genitor == null) return no.dado
 
         return construirCaminho(no.genitor) + "/" + no.dado
     }
@@ -75,15 +120,21 @@ class ArvoreDiretorios: Arborizavel<String> {
         var diretorioNo = buscaNo(raiz, diretorio);
         var pai = diretorioNo?.genitor;
 
-        if (pai == null) {
+        if (diretorioNo == raiz) {
             raiz = null;
+            println("Toda a arvore foi apagada!")
+            return
         } else {
-            for (i in 0 until pai.arrayPointers.size) {
+            for (i in 0 until pai?.arrayPointers!!.size) {
                 if (diretorioNo == pai.arrayPointers[i]) {
                     pai.arrayPointers[i] = null;
+                    println("Diretorio: " + diretorioNo + " removido com sucesso!");
+                    return
                 }
             }
         }
+
+        println("Diretorio: " + diretorioNo + " não encontrado");
 
     }
 }
