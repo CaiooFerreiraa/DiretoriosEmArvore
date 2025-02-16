@@ -1,6 +1,5 @@
 interface Arborizavel<T> {
-    fun criar(dado: T, diretorio: T): Boolean
-    fun criar(dado: T)
+    fun criar(dado: T, diretorio: String = "C:"): Boolean
     fun detalhesArvore()
     fun caminhoCompleto(diretorio: T)
     fun removerDiretorio(diretorio: T)

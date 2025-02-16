@@ -3,7 +3,7 @@ class ArvoreDiretorios: Arborizavel<String> {
 
     override fun criar(dado: String, diretorio: String): Boolean {
         if (raiz == null) {
-            raiz = NoMultiplo("C:");
+            raiz = NoMultiplo(diretorio);
         }
 
         val diretorioNo = buscaNo(raiz, diretorio);
@@ -21,13 +21,6 @@ class ArvoreDiretorios: Arborizavel<String> {
         return false;
     }
 
-    override fun criar(dado: String) {
-        if (raiz == null) {
-            raiz = NoMultiplo("C:");
-        }
-        criar(dado, "C:")
-    }
-
     override fun detalhes(diretorio: String) {
         var diretorioNo = buscaNo(raiz, diretorio);
 
@@ -38,6 +31,16 @@ class ArvoreDiretorios: Arborizavel<String> {
                     println("   " + diretorioNo.arrayPointers[i]!!.dado);
                 }
             }
+        }
+    }
+
+    fun buscarArquivo(arquivo: String) {
+        var diretorioNo = buscaNo(raiz, arquivo)
+
+        if (diretorioNo != null) {
+            println("Arquivo ${diretorioNo.dado} encontrado");
+        } else {
+            println("Arquivo não existe")
         }
     }
 
@@ -70,6 +73,7 @@ class ArvoreDiretorios: Arborizavel<String> {
             println("Arvore vazia.")
             return
         }
+        println("Arvore a partir da raiz " + raiz!!.dado);
         imprimirDetalhes(raiz!!, 0)
     }
 
