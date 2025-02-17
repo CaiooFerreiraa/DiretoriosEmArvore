@@ -67,7 +67,7 @@ fun criarArquivo() {
         1 -> {
             println("Digite o nome do arquivo")
             val nome : String = readln()
-            arvore.criar(nome);
+            arvore.criar(nome, null);
         }
         2 -> {
             println("Digite o nome do arquivo")

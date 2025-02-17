@@ -1,7 +1,12 @@
 class ArvoreDiretorios: Arborizavel<String> {
     var raiz: NoMultiplo? = null;
 
-    override fun criar(dado: String, diretorio: String): Boolean {
+    override fun criar(dado: String, diretorioOptional: String?): Boolean {
+        var diretorio = "C:";
+        if(diretorioOptional != null) {
+            diretorio = diretorioOptional;
+        }
+
         if (raiz == null) {
             raiz = NoMultiplo(diretorio);
         }
@@ -17,30 +22,15 @@ class ArvoreDiretorios: Arborizavel<String> {
                 }
             }
         } else {
-            var aux = raiz
-            while (aux != null) {
-                var inserido = false
-                for (i in 0 until aux.arrayPointers.size) {
-                    if (aux.arrayPointers[i] == null) {
-                        aux.arrayPointers[i] = NoMultiplo(diretorio)
-                        aux.arrayPointers[i]!!.genitor = aux
+            for (i in 0 until raiz!!.arrayPointers.size) {
+                if (raiz!!.arrayPointers[i] == null) {
+                    raiz!!.arrayPointers[i] = NoMultiplo(diretorio)
+                    raiz!!.arrayPointers[i]!!.genitor = raiz
 
-                        aux.arrayPointers[i]!!.arrayPointers[0] = NoMultiplo(dado)
-                        aux.arrayPointers[i]!!.arrayPointers[0]!!.genitor = aux.arrayPointers[i]
-                        inserido = true
-                        break
-                    }
+                    raiz!!.arrayPointers[i]!!.arrayPointers[0] = NoMultiplo(dado)
+                    raiz!!.arrayPointers[i]!!.arrayPointers[0]!!.genitor = raiz!!.arrayPointers[i]
+                    return true
                 }
-
-                if (inserido) return true
-
-                for (i in 0 until aux?.arrayPointers!!.size) {
-                    if (aux!!.arrayPointers[i] != null) {
-                        aux = aux!!.arrayPointers[i]
-                        break
-                    }
-                }
-
             }
         }
 
@@ -60,7 +50,7 @@ class ArvoreDiretorios: Arborizavel<String> {
         }
     }
 
-    fun buscarArquivo(arquivo: String) {
+    override fun buscarArquivo(arquivo: String) {
         var diretorioNo = buscaNo(raiz, arquivo)
 
         if (diretorioNo != null) {
@@ -68,66 +58,6 @@ class ArvoreDiretorios: Arborizavel<String> {
         } else {
             println("Arquivo não existe")
         }
-    }
-
-
-    private fun imprimirDetalhes(no: NoMultiplo, nivel: Int) {
-        var temFilho = false
-
-        for (i in 0 until no.arrayPointers.size) {
-            if (no.arrayPointers[i] != null) {
-                temFilho = true
-                break
-            }
-        }
-
-        if (!temFilho) return
-
-        val indentacao = "  ".repeat(nivel)
-        println("$indentacao Pastas/arquivos dentro de ${no.dado} ->")
-
-        for (i in 0 until no.arrayPointers.size) {
-            if (no.arrayPointers[i] != null) {
-                println("$indentacao   ${no.arrayPointers[i]!!.dado}")
-                imprimirDetalhes(no.arrayPointers[i]!!, nivel + 1) // Chamada recursiva
-            }
-        }
-    }
-
-    override fun detalhesArvore() {
-        if (raiz == null) {
-            println("Arvore vazia.")
-            return
-        }
-        println("Arvore a partir da raiz " + raiz!!.dado);
-        imprimirDetalhes(raiz!!, 0)
-    }
-
-    private fun buscaNo(no: NoMultiplo?, diretorio: String): NoMultiplo? {
-        if (no == null) return null;
-        if (no.dado == diretorio) return no;
-
-        for (i in 0 until no.arrayPointers.size) {
-            val filho = no.arrayPointers[i];
-            val encontrado = buscaNo(filho, diretorio);
-            if (encontrado != null) return encontrado;
-        }
-        return null;
-    }
-
-    override fun caminhoCompleto(diretorio: String) {
-        val diretorioNo = buscaNo(raiz, diretorio)
-
-        if (diretorioNo != null) {
-            println("Caminho completo: " + construirCaminho(diretorioNo))
-        }
-    }
-
-    private fun construirCaminho(no: NoMultiplo?): String {
-        if (no == null) return ""
-        if (no.genitor == null) return no.dado
-
-        return construirCaminho(no.genitor) + "/" + no.dado
     }
 
     override fun removerDiretorio(diretorio: String) {
@@ -150,5 +80,64 @@ class ArvoreDiretorios: Arborizavel<String> {
 
         println("Diretorio: " + diretorioNo + " não encontrado");
 
+    }
+
+    override fun detalhesArvore() {
+        if (raiz == null) {
+            println("Arvore vazia.")
+            return
+        }
+        println("Arvore a partir da raiz " + raiz!!.dado);
+        imprimirDetalhes(raiz!!, 0)
+    }
+
+    override fun caminhoCompleto(diretorio: String) {
+        val diretorioNo = buscaNo(raiz, diretorio)
+
+        if (diretorioNo != null) {
+            println("Caminho completo: " + construirCaminho(diretorioNo))
+        }
+    }
+
+    private fun construirCaminho(no: NoMultiplo?): String {
+        if (no == null) return ""
+        if (no.genitor == null) return no.dado
+
+        return construirCaminho(no.genitor) + "/" + no.dado
+    }
+
+    private fun buscaNo(no: NoMultiplo?, diretorio: String): NoMultiplo? {
+        if (no == null) return null;
+        if (no.dado == diretorio) return no;
+
+        for (i in 0 until no.arrayPointers.size) {
+            val filho = no.arrayPointers[i];
+            val encontrado = buscaNo(filho, diretorio);
+            if (encontrado != null) return encontrado;
+        }
+        return null;
+    }
+
+    private fun imprimirDetalhes(no: NoMultiplo, nivel: Int) {
+        var temFilho = false
+
+        for (i in 0 until no.arrayPointers.size) {
+            if (no.arrayPointers[i] != null) {
+                temFilho = true
+                break
+            }
+        }
+
+        if (!temFilho) return
+
+        val indentacao = "  ".repeat(nivel)
+        println("$indentacao Pastas/arquivos dentro de ${no.dado} ->")
+
+        for (i in 0 until no.arrayPointers.size) {
+            if (no.arrayPointers[i] != null) {
+                println("$indentacao   ${no.arrayPointers[i]!!.dado}")
+                imprimirDetalhes(no.arrayPointers[i]!!, nivel + 1) // Chamada recursiva
+            }
+        }
     }
 }
