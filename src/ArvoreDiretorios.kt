@@ -16,6 +16,32 @@ class ArvoreDiretorios: Arborizavel<String> {
                     return true;
                 }
             }
+        } else {
+            var aux = raiz
+            while (aux != null) {
+                var inserido = false
+                for (i in 0 until aux.arrayPointers.size) {
+                    if (aux.arrayPointers[i] == null) {
+                        aux.arrayPointers[i] = NoMultiplo(diretorio)
+                        aux.arrayPointers[i]!!.genitor = aux
+
+                        aux.arrayPointers[i]!!.arrayPointers[0] = NoMultiplo(dado)
+                        aux.arrayPointers[i]!!.arrayPointers[0]!!.genitor = aux.arrayPointers[i]
+                        inserido = true
+                        break
+                    }
+                }
+
+                if (inserido) return true
+
+                for (i in 0 until aux?.arrayPointers!!.size) {
+                    if (aux!!.arrayPointers[i] != null) {
+                        aux = aux!!.arrayPointers[i]
+                        break
+                    }
+                }
+
+            }
         }
 
         return false;
