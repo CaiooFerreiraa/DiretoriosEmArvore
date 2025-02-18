@@ -25,25 +25,25 @@ fun main() {
             1 -> criarArquivo();
             2 -> arvore.detalhesArvore()
             3 -> {
-                println("Digite o nome do arquivo")
+                println("Digite o nome do arquivo/diretório")
                 val nome : String = readln();
 
                 arvore.buscarArquivo(nome);
             }
             4 -> {
-                println("Digite o nome do arquivo");
+                println("Digite o nome do arquivo/diretório");
                 val nome : String = readln();
 
                 arvore.detalhes(nome);
             }
             5 -> {
-                println("Digite o nome do arquivo");
+                println("Digite o nome do arquivo/diretório");
                 val nome : String = readln()
 
                 arvore.removerDiretorio(nome);
             }
             6 -> {
-                println("Digite o nome do arquivo");
+                println("Digite o nome do arquivo/diretório");
                 val nome : String = readln()
 
                 arvore.caminhoCompleto(nome);
@@ -65,14 +65,14 @@ fun criarArquivo() {
 
     when (option) {
         1 -> {
-            println("Digite o nome do arquivo")
+            println("Digite o nome do arquivo/diretório")
             val nome : String = readln()
             arvore.criar(nome, null);
         }
         2 -> {
-            println("Digite o nome do arquivo")
+            println("Digite o nome do arquivo/diretório")
             val nome : String = readln()
-            println("Digite o nome do Diretorio")
+            println("Digite o nome do diretorio pai")
             val diretorio: String = readln()
             arvore.criar(nome, diretorio);
         }
