@@ -62,12 +62,15 @@ class ArvoreDiretorios: Arborizavel<String> {
 
     override fun removerDiretorio(diretorio: String) {
         var diretorioNo = buscaNo(raiz, diretorio);
-        var pai = diretorioNo?.genitor;
+        if(diretorioNo == null){
+            println("Diretorio: " + diretorioNo + " não encontrado");
+            return
+        }
+        var pai = diretorioNo.genitor;
 
         if (diretorioNo == raiz) {
             raiz = null;
             println("Toda a arvore foi apagada!")
-            return
         } else {
             for (i in 0 until pai?.arrayPointers!!.size) {
                 if (diretorioNo == pai.arrayPointers[i]) {
@@ -78,7 +81,6 @@ class ArvoreDiretorios: Arborizavel<String> {
             }
         }
 
-        println("Diretorio: " + diretorioNo + " não encontrado");
 
     }
 
